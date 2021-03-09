@@ -1,30 +1,36 @@
 <template>
-    <div>
-        <div class="Myheader">
-            <div class="logo">
-            <img src="../../../assets/logo.png" alt="">
-        </div>
-    </div>
+    <div class="TitleRight">
+       
+        <!-- <el-tabs  v-model="activeName" @tab-click="handleClick">
+                   
+                    <el-tab-pane label="个人设置" name="first">
+                        <router-link to="/about">About</router-link>
+                        <setup/>
+                    </el-tab-pane>
+                    <el-tab-pane label="修改密码" name="second">
+                        <password/>
+                    </el-tab-pane>
+                    <el-tab-pane label="角色管理" name="third"><router-link to="/about">About</router-link>角色管理</el-tab-pane>
+                    <el-tab-pane label="退出" name="fourth">退出</el-tab-pane>
 
-    <el-tabs class="TitleRight" v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="用户管理" name="first">用户管理</el-tab-pane>
-        <el-tab-pane label="配置管理" name="second">配置管理</el-tab-pane>
-        <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
-        <el-tab-pane label="定时任务补偿" name="fourth">定时任务补偿</el-tab-pane>
-    </el-tabs>
+        </el-tabs> -->
     </div>
- 
 </template>
 
 <script>
-
-
+import setup from './SetUp/setup'
+import password from './password/password.vue'
 export default {
   name: 'Myheader',
   data() {
       return {
-           activeName: 'second'
+        //   默认打开
+           activeName: 'first'
       }
+  },
+  components:{
+      setup,
+      password,
   },
   methods: {
       handleClick(tab, event) {
@@ -37,10 +43,12 @@ export default {
 <style scoped>
     .Myheader{
         /* display: flex; */
-        background-color: pink;
+        /*background-color: pink;*/
         height: 100%;
     }
-
+    .el-tabs__nav-wrap{
+        margin-bottom: 20px!important;
+    }
     .logo{
         float:left;
         align-items: center;

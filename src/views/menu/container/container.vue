@@ -1,6 +1,6 @@
 <template>
   <div class="MyCon">
-    MyCon
+      <router-link to="/about">About</router-link>
   </div>
 </template>
 

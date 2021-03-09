@@ -3,17 +3,17 @@ import App from './App.vue'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-plus/lib/theme-chalk/index.css';
-
+import store from './store'
+import Echarts from 'echarts'
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+Vue.prototype.$Echarts = Echarts
 new Vue({
-  router,
-
-  render: h => h(App)
+    router,
+    Echarts,
+    store,
+    render: h => h(App)
 }).$mount('#app')
-
-
-
 
 
 // import { createApp } from 'vue'
