@@ -8,7 +8,7 @@
 
 
     </el-row>
-    <el-dialog title="收货地址" v-model="dialogFormVisible">
+    <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
       <el-form :model="form">
         <el-form-item label="活动名称" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -81,6 +81,8 @@ export default {
 .el-row i::after {
   padding: 0 5px;
 }
-
+.el-form-item{
+  margin-left: 0;
+}
 
 </style>
