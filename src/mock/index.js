@@ -2,7 +2,7 @@
 // Mock.mock('/about',{
 //     'name':'@name'
 // });
-import Mock from 's'
+import Mock from 'mockjs'
 // 模拟数据列表
 var arr = [];
 for (let i = 0; i < 10; i++) {
@@ -35,12 +35,19 @@ let list = function (options) {
     }
 }
 Mock.mock('/list', /get|post/i, list);
+Mock.mock('/page1', /get|post/i, (option)=>{
+    return{
+        retule:true
+    }
+});
 
 // 数据的添加操作
 let listAdd = function (options) {
     //  console.log("传过来的数据"+JSON.parse(options.body).params.obj);
     let obj = JSON.parse(options.body).params.obj;
     // console.log("数据获取"+ obj);
+
+
     arr = arr.concat(obj); // 将前台返回来的数据，拼接到数组中。
     return {
         data: arr
@@ -50,6 +57,7 @@ Mock.mock('/listAdd', /get|post/i, listAdd);
 
 // 数据的修改操作
 let listUpdate = function (options) {
+    console.log(options)
     let obj = JSON.parse(options.body).params.obj;
     // console.log(JSON.parse(options.body).params);
     // let id = parseInt(JSON.parse(options.body).params.obj.id);

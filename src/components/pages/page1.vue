@@ -17,6 +17,7 @@
 
 <script>
 import axios from "axios";
+import Mock from '@/mock/index'
 
 export default {
   data() {
@@ -36,14 +37,15 @@ export default {
   methods: {
     // 查询列表数据
     getData() {
-      this.axios.get("/page1").then(res => {
+      axios.get("/list").then(res => {
         this.list = res.data.data;
+        console.log(res)
       });
     },
 
     // 删除列表数据
     deleteList(id) {
-      this.axios
+      axios
           .post("/list", {
             params: {
               id: id
@@ -57,14 +59,14 @@ export default {
     // 增加列表数据
     addList() {
       // console.log("****"+this.obj);
-      this.axios
+      axios
           .post("/listAdd", {
             params: {
               obj: this.obj
             }
           })
           .then(res => {
-            // console.log("请求成功"+res.data.data);
+            console.log("请求成功"+res);
             this.list = res.data.data;
           });
     },
@@ -73,7 +75,7 @@ export default {
     updateList() {
       var that = this;
       // console.log(this.obj)
-      this.axios
+      axios
           .post("/listUpdate", {
             params: {
               obj: this.obj

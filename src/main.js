@@ -5,13 +5,17 @@ import ElementUI from 'element-ui'
 import 'element-plus/lib/theme-chalk/index.css';
 import store from './store'
 import Echarts from 'echarts'
+import axios from "axios";
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.$Echarts = Echarts
+Vue.prototype.$axios = axios
 new Vue({
     router,
     Echarts,
     store,
+    axios,
     render: h => h(App)
 }).$mount('#app')
 

@@ -26,20 +26,23 @@
 
 
       </el-row>
-      <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-        <el-form :model="form">
+      <el-dialog title="新增项目" :visible.sync="dialogFormVisible">
+        <el-form :model="Newform">
+          <el-form-item label="项目id" :label-width="formLabelWidth">
+            <el-input v-model="Newform.projectID" autocomplete="off"></el-input>
+          </el-form-item>
           <el-form-item label="项目名称" :label-width="formLabelWidth">
-            <el-input v-model="form.ProjectName" autocomplete="off"></el-input>
+            <el-input v-model="Newform.projectName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="负责人" :label-width="formLabelWidth">
-            <el-input v-model="form.PerectName" autocomplete="off"></el-input>
+            <el-input v-model="Newform.personName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="项目开始时间" :label-width="formLabelWidth">
             <!--            <el-input v-model="form.ProectTime" autocomplete="off"></el-input>-->
             <div class="block">
-              <span class="demonstration">带快捷选项</span>
+              <!--              <span class="demonstration">带快捷选项</span>-->
               <el-date-picker
-                  v-model="value3"
+                  v-model="Newform.startTime"
                   type="datetime"
                   placeholder="选择日期时间"
                   align="right"
@@ -48,7 +51,7 @@
             </div>
           </el-form-item>
           <el-form-item label="项目目的" :label-width="formLabelWidth">
-            <el-input v-model="form.ProectOrder" autocomplete="off"></el-input>
+            <el-input v-model="Newform.projectOrder" autocomplete="off"></el-input>
           </el-form-item>
           <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
           <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
@@ -78,18 +81,29 @@
             width="55">
         </el-table-column>
         <el-table-column
-            label="日期"
+            prop="projectID"
+            label="项目ID"
             width="120">
           <template #default="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
-            prop="name"
-            label="姓名"
+            prop="projectName"
+            label="项目名"
             width="120">
         </el-table-column>
         <el-table-column
-            prop="address"
-            label="地址"
+            prop="personName"
+            label="负责人"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="proectOrder"
+            label="项目目的"
+            width="120">
+        </el-table-column>
+        <el-table-column
+            prop="startTime"
+            label="开始时间"
             show-overflow-tooltip>
         </el-table-column>
         <!--        <el-table-column-->
@@ -113,13 +127,21 @@
 <script>
 // import AboutTable from "@/components/pages/AboutComponents/AboutTable";
 // import headButton from "@/components/pages/AboutComponents/headButton";
-import {getAboutDate} from "@/network/aboutRequest";
-
+// import {getAboutDate} from "@/network/aboutRequest";
+import axios from "axios";
+import aboutReuest from "@/network/aboutRequest";
 export default {
   name: 'About',
   data() {
     return {
-
+      // 新增内容
+      Newform: {
+        projectName: '',
+        personName: '',
+        startTime: '',
+        projectOrder: '',
+        projectID: '',
+      },
       // 选则时间
       pickerOptions: {
         shortcuts: [{
@@ -134,7 +156,7 @@ export default {
             date.setTime(date.getTime() - 3600 * 1000 * 24);
             picker.$emit('pick', date);
           }
-        },{
+        }, {
           text: '一周后',
           onClick(picker) {
             const date = new Date();
@@ -149,83 +171,84 @@ export default {
       name: '',
       // headBotton
       dialogFormVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
+      // form: {
+      //   name: '',
+      //   region: '',
+      //   date1: '',
+      //   date2: '',
+      //   delivery: false,
+      //   type: [],
+      //   resource: '',
+      //   desc: ''
+      // },
       formLabelWidth: '120px',
       //headtable
-      tableData: [{
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王明',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-08',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-06',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-07',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }],
+      tableData: [
+        {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-03',
+          name: '王明',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-01',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-08',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-06',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-07',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }],
       multipleSelection: [],
       search: ''
 
@@ -255,18 +278,33 @@ export default {
     },
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+
+
+
+    getData()
+    {
+      this.$axios.get("/about").then(res => {
+
+        this.tableData=res.data.data
+        console.log(this.tableData)
+      })
     }
+
   },
   components: {
     // AboutTable,
     // headButton,
   },
   created() {
-    getAboutDate().then(res => {
-      this.name = res;
+    // getAboutDate().then(res => {
+    //   this.name = res;
+    //   console.log(this.name)
+    // })
+    this.getData();
 
-      console.log(this.name)
-    })
+
+
   }
 }
 </script>
