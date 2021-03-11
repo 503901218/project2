@@ -6,7 +6,8 @@
     <!--    </div>-->
     <div class="headBotton" style="height: 8vh">
       <el-row>
-        <el-table   :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"style="height: 30px;display: inline-block;width: 200px;padding: 0;">
+        <el-table :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                  style="height: 30px;display: inline-block;width: 200px;padding: 0;">
           <el-table-column
               align="right" style="height: 100%;">
             <template slot="header" slot-scope="scope">
@@ -27,15 +28,34 @@
       </el-row>
       <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
         <el-form :model="form">
-          <el-form-item label="活动名称" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+          <el-form-item label="项目名称" :label-width="formLabelWidth">
+            <el-input v-model="form.ProjectName" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="活动区域" :label-width="formLabelWidth">
-            <el-select v-model="form.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+          <el-form-item label="负责人" :label-width="formLabelWidth">
+            <el-input v-model="form.PerectName" autocomplete="off"></el-input>
           </el-form-item>
+          <el-form-item label="项目开始时间" :label-width="formLabelWidth">
+            <!--            <el-input v-model="form.ProectTime" autocomplete="off"></el-input>-->
+            <div class="block">
+              <span class="demonstration">带快捷选项</span>
+              <el-date-picker
+                  v-model="value3"
+                  type="datetime"
+                  placeholder="选择日期时间"
+                  align="right"
+                  :picker-options="pickerOptions">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <el-form-item label="项目目的" :label-width="formLabelWidth">
+            <el-input v-model="form.ProectOrder" autocomplete="off"></el-input>
+          </el-form-item>
+          <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
+          <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
+          <!--              <el-option label="区域一" value="shanghai"></el-option>-->
+          <!--              <el-option label="区域二" value="beijing"></el-option>-->
+          <!--            </el-select>-->
+          <!--          </el-form-item>-->
         </el-form>
         <template #footer>
     <span class="dialog-footer">
@@ -72,15 +92,15 @@
             label="地址"
             show-overflow-tooltip>
         </el-table-column>
-<!--        <el-table-column-->
-<!--            align="right" style="height: 100%;">-->
-<!--          <template slot="header" slot-scope="scope">-->
-<!--            <el-input-->
-<!--                v-model="search"-->
-<!--                size="mini"-->
-<!--                placeholder="输入关键字搜索"/>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+        <!--        <el-table-column-->
+        <!--            align="right" style="height: 100%;">-->
+        <!--          <template slot="header" slot-scope="scope">-->
+        <!--            <el-input-->
+        <!--                v-model="search"-->
+        <!--                size="mini"-->
+        <!--                placeholder="输入关键字搜索"/>-->
+        <!--          </template>-->
+        <!--        </el-table-column>-->
       </el-table>
       <!--    <div style="margin-top: 20px">-->
       <!--      <el-button @click="toggleSelection([tableData[1], tableData[2]])">切换第二、第三行的选中状态</el-button>-->
@@ -99,8 +119,34 @@ export default {
   name: 'About',
   data() {
     return {
+
+      // 选则时间
+      pickerOptions: {
+        shortcuts: [{
+          text: '今天',
+          onClick(picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        },{
+          text: '一周后',
+          onClick(picker) {
+            const date = new Date();
+            date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }]
+      },
+      value3: '',
+
       // netdata
-      name:'',
+      name: '',
       // headBotton
       dialogFormVisible: false,
       form: {
@@ -185,7 +231,7 @@ export default {
 
     }
   },
-  methods:{
+  methods: {
     addOne() {
       console.log("click add")
     },
@@ -216,28 +262,32 @@ export default {
     // headButton,
   },
   created() {
-    getAboutDate().then(res=>{
-      this.name=res;
+    getAboutDate().then(res => {
+      this.name = res;
 
       console.log(this.name)
     })
   }
 }
 </script>
-<style >
+<style>
 .about {
   height: 100%;
   background-color: orange;
 }
-.el-table td, .el-table th{
-  padding: 0!important;
+
+.el-table td, .el-table th {
+  padding: 0 !important;
 }
-.is-right,.cell{
+
+.is-right, .cell {
   /*padding: 0!important;*/
 }
-.el-input__inner{
+
+.el-input__inner {
   border: 1px solid #409EFF;
 }
+
 .el-row {
   padding: 15px;
 }
@@ -252,12 +302,14 @@ export default {
 .el-row i::after {
   padding: 0 5px;
 }
-.el-form-item{
+
+.el-form-item {
   margin-left: 0;
 }
+
 /*table*/
-.about  td,.el-main  th {
-  padding: 0!important;
+.about td, .el-main th {
+  padding: 0 !important;
   /*background-color: palevioletred;*/
 }
 
