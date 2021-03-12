@@ -27,7 +27,7 @@
         </el-table>
 
         <el-button type="primary" plain @click="dialogAddFormVisible=true"><i class="el-icon-thumb">添加</i></el-button>
-        <el-button type="primary" plain><i class="el-icon-edit" @click="editOne()">修改</i></el-button>
+        <el-button type="primary" plain @click="dialogEkidFormVisible=true"><i class="el-icon-edit" @click="editOne()">修改</i></el-button>
         <el-button type="primary" plain><i class="el-icon-delete" @click="deleteOne()">删除</i></el-button>
         <el-button type="primary" plain><i class="el-icon-download" @click="donwOne()">导出</i></el-button>
 
@@ -77,7 +77,7 @@
       </el-dialog>
 
       <el-dialog title="修改项目" :visible.sync="dialogEditFormVisible">
-        <el-form :model="Newform">
+        <el-form :model="editForm">
           <el-form-item label="项目id" :label-width="formLabelWidth">
             <el-input v-model="Newform.projectID" autocomplete="off"></el-input>
           </el-form-item>
@@ -196,6 +196,13 @@ export default {
     return {
       // 新增内容
       Newform: {
+        projectName: '',
+        personName: '',
+        startTime: '',
+        projectOrder: '',
+        projectID: '',
+      },
+      editForm: {
         projectName: '',
         personName: '',
         startTime: '',
@@ -363,8 +370,8 @@ export default {
     },
     editList(editData) {
       this.dialogEditFormVisible = false;
-      // this.Newform=editData;
-      console.log(editData);
+       this.editForm=editData;
+      console.log(this.editForm[0]);
       // this.multipleSelection = editData;
       // this.$axios.post("/aboutEdit", {...editData[0]}).then(res => {
       //   console.log(res.data)
