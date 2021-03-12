@@ -50,11 +50,9 @@ Mock.mock('/about', /get|post/i, list);
 
 // 数据的添加操作
 let listAdd = function (options) {
-    //  console.log("传过来的数据"+JSON.parse(options.body).params.obj);
-    let obj = JSON.parse(options.body).params.obj;
+    console.log("传过来的数据",options.body);
+    let obj = JSON.parse(options.body);
     // console.log("数据获取"+ obj);
-
-
     arr = arr.concat(obj); // 将前台返回来的数据，拼接到数组中。
     return {
         data: arr
@@ -64,10 +62,11 @@ Mock.mock('/aboutAdd', /get|post/i, listAdd);
 
 // 数据的修改操作
 let listUpdate = function (options) {
-    console.log(options)
-    let obj = JSON.parse(options.body).params.obj;
+    console.log(options);
+    let obj = JSON.parse(options.body);
     // console.log(JSON.parse(options.body).params);
     // let id = parseInt(JSON.parse(options.body).params.obj.id);
+
     arr = arr.map(val => { // 将需要替换的数据替换掉
         // console.log(val)
         return val.id == obj.id ? obj : val;
@@ -76,4 +75,4 @@ let listUpdate = function (options) {
         data: arr
     }
 }
-Mock.mock('/aboutUpdate', /get|post/i, listUpdate);
+Mock.mock('/aboutEdit', /get|post/i, listUpdate);
