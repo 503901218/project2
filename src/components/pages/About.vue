@@ -26,7 +26,7 @@
           </el-table-column>
         </el-table>
 
-        <el-button type="primary" plain><i class="el-icon-thumb">添加</i></el-button>
+        <el-button type="primary" plain @click="dialogAddFormVisible=true"><i class="el-icon-thumb">添加</i></el-button>
         <el-button type="primary" plain><i class="el-icon-edit" @click="editOne()">修改</i></el-button>
         <el-button type="primary" plain><i class="el-icon-delete" @click="deleteOne()">删除</i></el-button>
         <el-button type="primary" plain><i class="el-icon-download" @click="donwOne()">导出</i></el-button>
