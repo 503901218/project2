@@ -43,8 +43,9 @@
               <!--              <span class="demonstration">带快捷选项</span>-->
               <el-date-picker
                   v-model="Newform.startTime"
-                  type="datetime"
+                  value-format="yyyy-MM-dd"
                   placeholder="选择日期时间"
+                  type="date"
                   align="right"
                   :picker-options="pickerOptions">
               </el-date-picker>
@@ -63,7 +64,7 @@
         <template #footer>
     <span class="dialog-footer">
       <el-button @click="dialogFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      <el-button type="primary" @click="addList">确 定</el-button>
     </span>
         </template>
       </el-dialog>
@@ -84,7 +85,7 @@
             prop="projectID"
             label="项目ID"
             width="120">
-          <template #default="scope">{{ scope.row.date }}</template>
+<!--          <template #default="scope"></template>-->
         </el-table-column>
         <el-table-column
             prop="projectName"
@@ -97,7 +98,7 @@
             width="120">
         </el-table-column>
         <el-table-column
-            prop="proectOrder"
+            prop="projectOrder"
             label="项目目的"
             width="120">
         </el-table-column>
@@ -285,9 +286,20 @@ export default {
     getData()
     {
       this.$axios.get("/about").then(res => {
-
         this.tableData=res.data.data
         console.log(this.tableData)
+      })
+    },
+    addList(){
+      this.dialogFormVisible=false;
+      console.log(this.Newform)
+      this.$axios.post("/aboutAdd",
+          {params:{
+            data:this.Newform
+            }}
+      ).then(res=>{
+        console.log(res.data)
+        this.tableData=res.data.data
       })
     }
 
@@ -297,14 +309,7 @@ export default {
     // headButton,
   },
   created() {
-    // getAboutDate().then(res => {
-    //   this.name = res;
-    //   console.log(this.name)
-    // })
     this.getData();
-
-
-
   }
 }
 </script>

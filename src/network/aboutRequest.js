@@ -11,10 +11,10 @@ var arr = [];
 // var data=new Data();
 for (let i = 0; i < 5; i++) {
     let newArticleObject = {
-        ProjectID:i,
-        ProjectName: '项目'+i.toString(),
-        PersonName: '小明',
-        StartTime:new Date(),
+        projectID:i,
+        projectName: '项目'+i.toString(),
+        personName: '小明',
+        startTime:new Date(),
         projectOrder:'为了xxxxxx'
 
     }
