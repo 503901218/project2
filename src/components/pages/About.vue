@@ -26,30 +26,30 @@
           </el-table-column>
         </el-table>
 
-        <el-button type="primary" plain @click="dialogAddFormVisible=true"><i class="el-icon-thumb">添加</i></el-button>
-        <el-button type="primary" plain @click="dialogEkidFormVisible=true"><i class="el-icon-edit" @click="editOne()">修改</i></el-button>
+        <el-button type="primary" plain @click="addOne()"><i class="el-icon-thumb">添加</i></el-button>
+        <el-button type="primary" plain @click="dialogEditFormVisible=true"><i class="el-icon-edit">修改</i></el-button>
         <el-button type="primary" plain><i class="el-icon-delete" @click="deleteOne()">删除</i></el-button>
         <el-button type="primary" plain><i class="el-icon-download" @click="donwOne()">导出</i></el-button>
 
 
       </el-row>
       <el-dialog title="新增项目" :visible.sync="dialogAddFormVisible">
-        <el-form :model="Newform">
+        <el-form :model="newform">
           <el-form-item label="项目id" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectID" autocomplete="off"></el-input>
+            <el-input v-model="newform.projectID" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="项目名称" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectName" autocomplete="off"></el-input>
+            <el-input v-model="newform.projectName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="负责人" :label-width="formLabelWidth">
-            <el-input v-model="Newform.personName" autocomplete="off"></el-input>
+            <el-input v-model="newform.personName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="项目开始时间" :label-width="formLabelWidth">
             <!--            <el-input v-model="form.ProectTime" autocomplete="off"></el-input>-->
             <div class="block">
               <!--              <span class="demonstration">带快捷选项</span>-->
               <el-date-picker
-                  v-model="Newform.startTime"
+                  v-model="newform.startTime"
                   value-format="yyyy-MM-dd"
                   placeholder="选择日期时间"
                   type="date"
@@ -59,7 +59,7 @@
             </div>
           </el-form-item>
           <el-form-item label="项目目的" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectOrder" autocomplete="off"></el-input>
+            <el-input v-model="newform.projectOrder" autocomplete="off"></el-input>
           </el-form-item>
           <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
           <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
@@ -79,20 +79,20 @@
       <el-dialog title="修改项目" :visible.sync="dialogEditFormVisible">
         <el-form :model="editForm">
           <el-form-item label="项目id" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectID" autocomplete="off"></el-input>
+            <el-input v-model="editForm.projectID" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="项目名称" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectName" autocomplete="off"></el-input>
+            <el-input v-model="editForm.projectName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="负责人" :label-width="formLabelWidth">
-            <el-input v-model="Newform.personName" autocomplete="off"></el-input>
+            <el-input v-model="editForm.personName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="项目开始时间" :label-width="formLabelWidth">
             <!--            <el-input v-model="form.ProectTime" autocomplete="off"></el-input>-->
             <div class="block">
               <!--              <span class="demonstration">带快捷选项</span>-->
               <el-date-picker
-                  v-model="Newform.startTime"
+                  v-model="editForm.startTime"
                   value-format="yyyy-MM-dd"
                   placeholder="选择日期时间"
                   type="date"
@@ -102,7 +102,7 @@
             </div>
           </el-form-item>
           <el-form-item label="项目目的" :label-width="formLabelWidth">
-            <el-input v-model="Newform.projectOrder" autocomplete="off"></el-input>
+            <el-input v-model="newform.projectOrder" autocomplete="off"></el-input>
           </el-form-item>
           <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
           <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
@@ -123,6 +123,7 @@
     <div class="AboutTable" style="height: 76vh;overflow-y: auto">
       <el-table
           height="76vh"
+          highlight-current-row
           ref="multipleTable"
           :data="tableData.filter(
                 row => !search ||
@@ -195,7 +196,7 @@ export default {
   data() {
     return {
       // 新增内容
-      Newform: {
+      newform: {
         projectName: '',
         personName: '',
         startTime: '',
@@ -324,6 +325,16 @@ export default {
   },
   methods: {
     addOne() {
+      this.dialogAddFormVisible=true
+      let form= {
+        projectName: '',
+            personName: '',
+            startTime: '',
+            projectOrder: '',
+            projectID: '',
+      }
+      this.newform= {...form};
+
       console.log("click add")
     },
     editOne() {
@@ -360,18 +371,18 @@ export default {
     },
     addList() {
       this.dialogAddFormVisible = false;
-      console.log(this.Newform)
+      console.log(this.newform)
       this.$axios.post("/aboutAdd",
-          {...this.Newform}
+          {...this.newform}
       ).then(res => {
         console.log(res.data)
         this.tableData = res.data.data
       })
     },
     editList(editData) {
-      this.dialogEditFormVisible = false;
-       this.editForm=editData;
-      console.log(this.editForm[0]);
+      // this.dialogEditFormVisible = true;
+      //  this.editForm=editData;
+      console.log(editData);
       // this.multipleSelection = editData;
       // this.$axios.post("/aboutEdit", {...editData[0]}).then(res => {
       //   console.log(res.data)
