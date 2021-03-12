@@ -5,16 +5,16 @@
 //     })
 // }
 import Mock from 'mockjs'
-
+import moment from "moment";
 // 模拟数据列表
 var arr = [];
-// var data=new Data();
+var data=new Date();
 for (let i = 0; i < 5; i++) {
     let newArticleObject = {
         projectID:i,
         projectName: '项目'+i.toString(),
         personName: '小明',
-        startTime:new Date(),
+        startTime:moment().format('YYYY-MM-DD'),
         projectOrder:'为了xxxxxx'
 
     }

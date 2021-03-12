@@ -43,7 +43,7 @@
               <!--              <span class="demonstration">带快捷选项</span>-->
               <el-date-picker
                   v-model="Newform.startTime"
-                  value-format="yyyy-MM-dd"
+
                   placeholder="选择日期时间"
                   type="date"
                   align="right"
