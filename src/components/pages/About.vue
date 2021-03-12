@@ -27,7 +27,7 @@
         </el-table>
 
         <el-button type="primary" plain @click="addOne()"><i class="el-icon-thumb">添加</i></el-button>
-        <el-button type="primary" plain @click="dialogEditFormVisible=true"><i class="el-icon-edit">修改</i></el-button>
+        <el-button type="primary" plain @click="editOne()"><i class="el-icon-edit">修改</i></el-button>
         <el-button type="primary" plain><i class="el-icon-delete" @click="deleteOne()">删除</i></el-button>
         <el-button type="primary" plain><i class="el-icon-download" @click="donwOne()">导出</i></el-button>
 
@@ -134,8 +134,12 @@
                  row.projectOrder.toLowerCase().includes(search.toLowerCase()))"
           tooltip-effect="dark"
           style="width: 100%"
-          @selection-change="editList">
+          @current-change="editList">
 <!--          @selection-change="handleSelectionChange">-->
+        <el-table-column
+            type="index"
+            width="50">
+        </el-table-column>
         <el-table-column
             type="selection"
             width="55">
@@ -319,7 +323,8 @@ export default {
           address: '上海市普陀区金沙江路 1518 弄'
         }],
       multipleSelection: [],
-      search: ''
+      search: '',
+      currentRow: null
 
     }
   },
@@ -338,6 +343,9 @@ export default {
       console.log("click add")
     },
     editOne() {
+      this.dialogEditFormVisible=true
+
+      this.editForm={...this.currentRow}
       console.log("click edit")
     },
     deleteOne() {
@@ -379,15 +387,11 @@ export default {
         this.tableData = res.data.data
       })
     },
-    editList(editData) {
+    editList(val) {
       // this.dialogEditFormVisible = true;
       //  this.editForm=editData;
-      console.log(editData);
-      // this.multipleSelection = editData;
-      // this.$axios.post("/aboutEdit", {...editData[0]}).then(res => {
-      //   console.log(res.data)
-      //   this.tableData = res.data.data
-      // })
+      this.currentRow = val;
+      console.log(val);
     }
 
   },
