@@ -6,7 +6,9 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
         openTab: [],
-        activeTab: '/home'
+
+        activeTab: '/home',
+        isLogin:false
     },
     mutations: {
         addOpenTab(state, path) {

@@ -1,22 +1,22 @@
 <template>
   <div id="app">
 
-    <el-form  :model="loginForm" status-icon  ref="loginForm" label-width="100px" class="demo-ruleForm">
+    <el-form v-if="!this.$store.state.isLogin" :model="loginForm" status-icon  ref="loginForm" label-width="100px" class="demo-ruleForm">
 <!--    <el-form  :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">-->
       <el-form-item label="ID" >
         <el-input type="text" v-model="loginForm.loginId" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="确认密码" >
-        <el-input type="password" v-model="loginForm.loginPassward" autocomplete="off"></el-input>
+        <el-input type="password" v-model="loginForm.loginPassword" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="">登陆</el-button>
+        <el-button type="primary" @click="checkLogin">登陆</el-button>
         <el-button @click="">取消</el-button>
       </el-form-item>
     </el-form>
 
 
-    <div class="menu" name="Mymenu">
+    <div v-else class="menu" name="Mymenu">
       <el-container>
         <el-aside class="tree" width="200px">
           <my-tree/>
@@ -110,6 +110,16 @@ export default {
       this.$store.commit('changTab',path)
       this.$router.push({path:this.$store.state.activeTab});
       console.log(this.$store.state.activeTab)
+    },
+    checkLogin(){
+      this.$axios.post('/login',{
+        ...this.loginForm
+      }).then(res=>{
+        console.log(res)
+        alert("登陆成功")
+      }).then(req=>{
+        alert("登陆失败")
+      })
     }
   }
 
