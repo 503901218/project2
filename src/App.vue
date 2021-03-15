@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       activeName: 'second',
-      loginForm: {}
+      loginForm: {loginId:'',loginPassword:''}
     }
   },
   components: {
@@ -117,8 +117,11 @@ export default {
         ...this.loginForm
       }).then(res=>{
         console.log(res)
+        if(res.data.success){
+          this.$store.state.isLogin=true
+        }
         alert("登陆成功")
-      }).then(req=>{
+      }).catch(req=>{
         alert("登陆失败")
       })
     }
