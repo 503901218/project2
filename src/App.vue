@@ -1,6 +1,21 @@
 <template>
   <div id="app">
 
+    <el-form  :model="loginForm" status-icon  ref="loginForm" label-width="100px" class="demo-ruleForm">
+<!--    <el-form  :model="loginForm" status-icon :rules="rules" ref="loginForm" label-width="100px" class="demo-ruleForm">-->
+      <el-form-item label="ID" >
+        <el-input type="text" v-model="loginForm.loginId" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" >
+        <el-input type="password" v-model="loginForm.loginPassward" autocomplete="off"></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="">登陆</el-button>
+        <el-button @click="">取消</el-button>
+      </el-form-item>
+    </el-form>
+
+
     <div class="menu" name="Mymenu">
       <el-container>
         <el-aside class="tree" width="200px">
@@ -28,17 +43,8 @@
           <el-footer>Footer</el-footer>
         </el-container>
       </el-container>
-      <!-- <my-tree/>
-      <my-con/>
-      <my-header/> -->
+
     </div>
-
-
-    <!--    <div id="nav">-->
-    <!--      <router-link to="/">Home</router-link>-->
-    <!--      |-->
-    <!--      <router-link to="/about">About</router-link>-->
-    <!--    </div>-->
 
   </div>
 </template>
@@ -53,6 +59,7 @@ export default {
   data() {
     return {
       activeName: 'second',
+      loginForm:[]
     }
   },
   components: {
@@ -61,6 +68,10 @@ export default {
     MyHeader
   },
   methods: {
+
+
+
+
     handleTabsEdit(targetName, action) {
       if (action === 'add') {
         let newTabName = ++this.tabIndex + '';
@@ -203,4 +214,9 @@ body > .el-container {
   min-height: 28px!important;
 }
 
+
+/*登陆床*/
+.el-form-item,.demo-ruleForm{
+  margin: 0!important;
+}
 </style>

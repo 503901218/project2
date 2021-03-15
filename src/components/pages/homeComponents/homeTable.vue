@@ -97,7 +97,8 @@ export default {
   name: "homeTable",
   data() {
     return {
-      tableData: [{
+      tableData: [
+          {
         projectName: '住房和城乡建设部科技计划项目',
         date: '2016-05-02',
         name: '王小虎',

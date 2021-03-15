@@ -28,7 +28,7 @@
 
         <el-button type="primary" plain @click="addOne()"><i class="el-icon-thumb">添加</i></el-button>
         <el-button type="primary" plain @click="editOne()"><i class="el-icon-edit">修改</i></el-button>
-        <el-button type="primary" plain><i class="el-icon-delete" @click="deleteOne()">删除</i></el-button>
+        <el-button type="primary" plain @click="deleteOne()"><i class="el-icon-delete" >删除</i></el-button>
         <el-button type="primary" plain><i class="el-icon-download" @click="donwOne()">导出</i></el-button>
 
 
@@ -102,7 +102,7 @@
             </div>
           </el-form-item>
           <el-form-item label="项目目的" :label-width="formLabelWidth">
-            <el-input v-model="newform.projectOrder" autocomplete="off"></el-input>
+            <el-input v-model="editForm.projectOrder" autocomplete="off"></el-input>
           </el-form-item>
           <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
           <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
@@ -115,7 +115,51 @@
 
     <span class="dialog-footer">
       <el-button @click="dialogEditFormVisible = false">取 消</el-button>
-      <el-button type="primary" @click="addList">确 定</el-button>
+      <el-button type="primary" @click="confirmBtn">确 定</el-button>
+    </span>
+        </template>
+      </el-dialog>
+      <el-dialog title="删除项目" :visible.sync="dialogDeleteFormVisible">
+        <el-form :model="deleteForm">
+          <el-form-item label="项目id" :label-width="formLabelWidth">
+            <el-input disabled v-model="deleteForm.projectID" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="项目名称" :label-width="formLabelWidth">
+            <el-input disabled v-model="deleteForm.projectName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="负责人" :label-width="formLabelWidth">
+            <el-input disabled v-model="deleteForm.personName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="项目开始时间" :label-width="formLabelWidth">
+            <!--            <el-input v-model="form.ProectTime" autocomplete="off"></el-input>-->
+            <div class="block">
+              <!--              <span class="demonstration">带快捷选项</span>-->
+              <el-date-picker
+                  disabled
+                  v-model="deleteForm.startTime"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期时间"
+                  type="date"
+                  align="right"
+                  :picker-options="pickerOptions">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+          <el-form-item label="项目目的" :label-width="formLabelWidth">
+            <el-input disabled v-model="deleteForm.projectOrder" autocomplete="off"></el-input>
+          </el-form-item>
+          <!--          <el-form-item label="活动区域" :label-width="formLabelWidth">-->
+          <!--            <el-select v-model="form.region" placeholder="请选择活动区域">-->
+          <!--              <el-option label="区域一" value="shanghai"></el-option>-->
+          <!--              <el-option label="区域二" value="beijing"></el-option>-->
+          <!--            </el-select>-->
+          <!--          </el-form-item>-->
+        </el-form>
+        <template #footer>
+
+    <span class="dialog-footer">
+      <el-button @click="dialogDeleteFormVisible = false">取 消</el-button>
+      <el-button type="primary" @click="confirmDeleteBtn">确 定 删 除</el-button>
     </span>
         </template>
       </el-dialog>
@@ -134,7 +178,7 @@
                  row.projectOrder.toLowerCase().includes(search.toLowerCase()))"
           tooltip-effect="dark"
           style="width: 100%"
-          @current-change="editList">
+          @current-change="chooseList">
 <!--          @selection-change="handleSelectionChange">-->
         <el-table-column
             type="index"
@@ -214,6 +258,13 @@ export default {
         projectOrder: '',
         projectID: '',
       },
+      deleteForm: {
+        projectName: '',
+        personName: '',
+        startTime: '',
+        projectOrder: '',
+        projectID: '',
+      },
       // 选则时间
       pickerOptions: {
         shortcuts: [{
@@ -244,6 +295,7 @@ export default {
       // headBotton点击出现编辑内容
       dialogAddFormVisible: false,
       dialogEditFormVisible: false,
+      dialogDeleteFormVisible: false,
       // form: {
       //   name: '',
       //   region: '',
@@ -256,72 +308,7 @@ export default {
       // },
       formLabelWidth: '120px',
       //headtable
-      tableData: [
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王明',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-08',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-06',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+      tableData: [],
       multipleSelection: [],
       search: '',
       currentRow: null
@@ -329,6 +316,11 @@ export default {
     }
   },
   methods: {
+    //选中某行
+    chooseList(val) {
+      this.currentRow = val;
+    },
+    // 点击添加
     addOne() {
       this.dialogAddFormVisible=true
       let form= {
@@ -342,14 +334,17 @@ export default {
 
       console.log("click add")
     },
+    // 点击编辑
     editOne() {
       this.dialogEditFormVisible=true
-
       this.editForm={...this.currentRow}
       console.log("click edit")
     },
+    //点击删除
     deleteOne() {
-      console.log("click add")
+      this.dialogDeleteFormVisible=true
+      this.deleteForm={...this.currentRow}
+      console.log("click delete")
     },
     downOne() {
       console.log("click add")
@@ -377,6 +372,7 @@ export default {
         console.log(this.tableData)
       })
     },
+    // 添加弹窗点击确认
     addList() {
       this.dialogAddFormVisible = false;
       console.log(this.newform)
@@ -387,11 +383,23 @@ export default {
         this.tableData = res.data.data
       })
     },
-    editList(val) {
-      // this.dialogEditFormVisible = true;
-      //  this.editForm=editData;
-      this.currentRow = val;
-      console.log(val);
+
+    //编辑 确认
+    confirmBtn(){
+      this.$axios.post('/aboutEdit',
+          {...this.editForm}).then(res=>{
+        this.tableData=res.data.data
+        this.dialogEditFormVisible=false
+      })
+    },
+    //删除 确认
+    confirmDeleteBtn(){
+      this.$axios.post('/about',
+          {...this.deleteForm}).then(res=>{
+        this.tableData=res.data.data
+        console.log(res.data.data)
+        this.dialogDeleteFormVisible=false
+      })
     }
 
   },

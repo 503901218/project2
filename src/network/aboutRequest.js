@@ -23,15 +23,16 @@ for (let i = 0; i < 5; i++) {
 
 // 数据的删除操作
 let list = function (options) {
-    // console.log(options.type);
+    console.log(options);
     let rtype = options.type.toLowerCase(); //获取请求的类型并转换为小写
+    console.log(options);
     switch (rtype) {
         case 'get':
             break;
         case 'post':
-            let id = parseInt(JSON.parse(options.body).params.id); // 获取请求的id，将options.body转换为JSON对象
+            let id = parseInt(JSON.parse(options.body).projectID); // 获取请求的id，将options.body转换为JSON对象
             arr = arr.filter(function (val) {
-                return val.id != id; // 过滤掉前台传过来的id对应的相应数据，并重新返回
+                return val.projectID != id; // 过滤掉前台传过来的id对应的相应数据，并重新返回
             });
             break;
         default:
@@ -67,9 +68,9 @@ let listUpdate = function (options) {
     // console.log(JSON.parse(options.body).params);
     // let id = parseInt(JSON.parse(options.body).params.obj.id);
 
-    arr = arr.map(val => { // 将需要替换的数据替换掉
+    arr = arr.map(val => { // 遍历数据 将需要替换的数据替换掉
         // console.log(val)
-        return val.id == obj.id ? obj : val;
+        return val.projectID == obj.projectID ? obj : val;
     });
     return {
         data: arr
