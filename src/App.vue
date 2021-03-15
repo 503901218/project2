@@ -53,13 +53,14 @@ import MyTree from './views/menu/tree/tree';
 import MyCon from './views/menu/container/container'
 import MyHeader from './views/menu/header/header'
 import {routes} from "@/router";
+import login from "@/network/login";
 
 export default {
   name: 'App',
   data() {
     return {
       activeName: 'second',
-      loginForm:[]
+      loginForm: {}
     }
   },
   components: {

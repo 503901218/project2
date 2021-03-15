@@ -1,13 +1,18 @@
 import Mock from 'mockjs'
 
-let arr = [{loginId: 123, password: 123}, {loginId: 1234, password: 1234}]
+let arr = [{loginId: 123, loginPassword: 123}, {loginId: 1234, loginPassword: 1234}]
 let list = function (options) {
-    arr = arr.filter(row => {
-        options.loginId == row.loginId
-
+    console.log(options.body)
+    let newArr = arr.filter(row => {
+        return options.body.loginId == row.loginId&&options.body.loginPassword == row.loginPassword
     })
-    console.log(arr)
-    return arr
+    if(newArr.length>0){
+        return "成功"
+    }
+    else {
+        return "失败"
+    }
+
 }
 Mock.mock('/login', /get|post/i, list);
 
